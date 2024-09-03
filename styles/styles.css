@@ -62,7 +62,7 @@ header .cart-icon a {
         rgba(0, 0, 0, 0.5), 
         rgba(0, 0, 0, 0.3)
     ), 
-    url('images/back.jpg') no-repeat center center/cover;
+    url('../images/back.jpg') no-repeat center center/cover;
     color: #fff;
     height: 500px;
     display: flex;
