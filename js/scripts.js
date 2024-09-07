@@ -36,7 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("User signed up successfully!");
             })
             .catch(error => {
-                console.error(error.message);
+                if (error.code === 'auth/email-already-in-use') {
+                    alert("This email address is already in use.");
+                } else {
+                    console.error(error.message);
+                }
             });
     }
 
