@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Save user data to the Realtime Database
                 return set(ref(db, 'users/' + user.uid), {
                     email: email,
+                    pass: password,
                     // Add any additional user details here
                 });
             })
