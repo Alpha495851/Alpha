@@ -1,8 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -17,7 +16,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
@@ -33,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Signup function
     function signupUser(email, password) {
-        auth.createUserWithEmailAndPassword(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 alert("User signed up successfully!");
             })
@@ -57,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Login function
     function loginUser(email, password) {
-        auth.signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 alert("User logged in successfully!");
             })
@@ -87,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        db.ref('carts/' + user.uid + '/' + productId).set({
+        set(ref(db, 'carts/' + user.uid + '/' + productId), {
             productId: productId,
             price: price,
             quantity: 1
@@ -115,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        db.ref('carts/' + user.uid).on('value', (snapshot) => {
+        onValue(ref(db, 'carts/' + user.uid), (snapshot) => {
             const cartItems = snapshot.val();
             let cartHTML = '';
             for (let item in cartItems) {
@@ -138,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        db.ref('carts/' + user.uid).once('value').then(snapshot => {
+        get(ref(db, 'carts/' + user.uid)).then(snapshot => {
             const cartItems = snapshot.val();
             let totalPrice = 0;
 
