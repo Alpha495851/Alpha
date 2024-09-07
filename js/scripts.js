@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
 // Firebase configuration
@@ -33,7 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function signupUser(email, password) {
         createUserWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
-                alert("User signed up successfully!");
+                const user = userCredential.user;
+                // Save user data to the Realtime Database
+                return set(ref(db, 'users/' + user.uid), {
+                    email: email,
+                    // Add any additional user details here
+                });
+            })
+            .then(() => {
+                alert("User signed up and data saved successfully!");
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -163,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Checkout button not found.");
     }
 
-    auth.onAuthStateChanged(user => {
+    onAuthStateChanged(auth, user => {
         if (user) {
             console.log("User is logged in: ", user.email);
             // Update UI or load user-specific data
