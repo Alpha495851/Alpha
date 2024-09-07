@@ -44,22 +44,59 @@ const db = getDatabase(app);
 
 // Signup function
 function signupUser(email, password) {
-    auth.createUserWithEmailAndPassword(email, password)
-      .then(userCredential => {
-        alert("User signed up successfully!");
-      })
-      .catch(error => {
-        console.error(error.message);
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(userCredential => {
+      alert("User signed up successfully!");
+    })
+    .catch(error => {
+      console.error(error.message);
+      alert(error.message); // Optional: Alert the user of errors during signup
+    });
+}
+
+// Ensure the DOM is fully loaded before attaching event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const signupForm = document.getElementById('signup-form');
+
+  // Ensure the signup form exists before adding an event listener
+  if (signupForm) {
+      signupForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const email = document.getElementById('signup-email').value;
+          const password = document.getElementById('signup-password').value;
+
+          // Call the signup function with email and password
+          signupUser(email, password);
       });
   }
-  
-  // Attach signup event listener
-  document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    signupUser(email, password);
-  });
+// Signup function
+function signupUser(email, password) {
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(userCredential => {
+      alert("User signed up successfully!");
+    })
+    .catch(error => {
+      console.error(error.message);
+      alert(error.message); // Optional: Alert the user of errors during signup
+    });
+}
+
+// Ensure the DOM is fully loaded before attaching event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  const signupForm = document.getElementById('signup-form');
+
+  // Ensure the signup form exists before adding an event listener
+  if (signupForm) {
+      signupForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          const email = document.getElementById('signup-email').value;
+          const password = document.getElementById('signup-password').value;
+
+          // Call the signup function with email and password
+          signupUser(email, password);
+      });
+  }
+});
 
   // Login function
 function loginUser(email, password) {
@@ -168,4 +205,4 @@ function addToCart(productId, price) {
     }
   });
   
-  
+})
