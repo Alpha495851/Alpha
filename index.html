@@ -3,47 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Shadow Products</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <div class="logo">Shadow Products</div>
+        <div class="logo">
+            <h1>Shadow Products</h1>
+        </div>
         <nav>
-            <!-- Desktop and Mobile Menu controlled by CSS -->
-            <ul class="menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="signup.html">Signup</a></li>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#login">Login</a></li>
             </ul>
-            
-            <!-- Mobile Hamburger Menu Trigger -->
-            <div class="hamburger">&#9776;</div>
-    
-    <!-- Mobile Menu (hidden by default, shown on click) -->
-    <div class="mobile-menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="products.html">Products</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="signup.html">Signup</a></li>
-        </ul>
-    </div>
-    </nav>
+            <div class="cart">
+                <a href="#cart"><img src="cart-icon.png" alt="Cart" /></a>
+            </div>
+        </nav>
     </header>
-    
 
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>Welcome to Shadow Products</h1><br>
-        <p>Your one-stop shop for the best products</p>
-        <a href="products.html" class="btn">Shop Now</a>
+        <div class="hero-content">
+            <h2>Find Your Favorite Products</h2>
+            <p>Explore our collection of unique and high-quality items.</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
     </section>
 
+    <!-- Featured Products Section -->
+    <section class="products" id="products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+            <div class="product">
+                <img src="product1.jpg" alt="Product 1">
+                <h3>Product 1</h3>
+                <p>$19.99</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+            <div class="product">
+                <img src="product2.jpg" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$29.99</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+            <div class="product">
+                <img src="product3.jpg" alt="Product 3">
+                <h3>Product 3</h3>
+                <p>$39.99</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+            <div class="product">
+                <img src="product4.jpg" alt="Product 4">
+                <h3>Product 4</h3>
+                <p>$49.99</p>
+                <a href="#" class="btn">Add to Cart</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>About Us</h2>
+        <p>At Shadow Products, we are dedicated to providing top-quality items at affordable prices. Our passion for excellent products drives us to curate a diverse range of goods that cater to all tastes.</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Shadow Products. All rights reserved.</p>
     </footer>
-
-    <script type="module" src="js/scripts.js"></script>
 </body>
 </html>
