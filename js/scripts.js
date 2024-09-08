@@ -1,183 +1,192 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyDBezJmvkk5__TNxmLN1c1XLZDSfzQgD1A",
-    authDomain: "alpha-b20ce.firebaseapp.com",
-    projectId: "alpha-b20ce",
-    storageBucket: "alpha-b20ce.appspot.com",
-    messagingSenderId: "102976757740",
-    appId: "1:102976757740:web:ac0422b9d1a78a8f632ac9",
-    measurementId: "G-BNG4L4W5HQ" // This is optional
-};
+/* Body and Font Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app, 'https://alpha-b20ce-default-rtdb.asia-southeast1.firebasedatabase.app/');
+/* Header */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    const hamburger = document.querySelector('.hamburger');
-    const mobileMenu = document.querySelector('.mobile-menu');
+header h1 {
+    font-size: 1.8em;
+}
 
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-        });
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.cart img {
+    width: 30px;
+}
+
+/* Hero Section */
+.hero {
+    background: url('hero-bg.jpg') no-repeat center center/cover;
+    height: 90vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content h2 {
+    font-size: 3.5em;
+}
+
+.hero-content p {
+    font-size: 1.5em;
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #ff6347;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.btn:hover {
+    background-color: #ff4500;
+}
+
+/* Products Section */
+.products {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.products h2 {
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.product h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.product p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+/* About Section */
+.about {
+    background-color: #333;
+    color: #fff;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.about h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 1.2em;
+    line-height: 1.8;
+}
+
+/* Contact Section */
+.contact {
+    background-color: #f4f4f4;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.contact h2 {
+    margin-bottom: 20px;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact input, .contact textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.1em;
+}
+
+.contact button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.contact button:hover {
+    background-color: #555;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 1em;
     }
-
-    // Signup function
-    function signupUser(email, password) {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-                const user = userCredential.user;
-                // Save user data to the Realtime Database
-                return set(ref(db, 'users/' + user.uid), {
-                    email: email,
-                    // Add any additional user details here
-                });
-            })
-            .then(() => {
-                alert("User signed up and data saved successfully!");
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    alert("This email address is already in use.");
-                } else {
-                    console.error(error.message);
-                }
-            });
-    }
-
-    // Attach signup event listener
-    const signupForm = document.getElementById('signup-form');
-    if (signupForm) {
-        signupForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            signupUser(email, password);
-        });
-    } else {
-        console.error("Signup form not found.");
-    }
-
-    // Login function
-    function loginUser(email, password) {
-        signInWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-                alert("User logged in successfully!");
-            })
-            .catch(error => {
-                console.error(error.message);
-            });
-    }
-
-    // Attach login event listener
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            loginUser(email, password);
-        });
-    } else {
-        console.error("Login form not found.");
-    }
-
-    // Add to cart function
-    function addToCart(productId, price) {
-        const user = auth.currentUser;
-        if (!user) {
-            alert("Please log in first to add items to the cart.");
-            return;
-        }
-
-        set(ref(db, 'carts/' + user.uid + '/' + productId), {
-            productId: productId,
-            price: price,
-            quantity: 1
-        }).then(() => {
-            alert("Item added to cart.");
-        }).catch(error => {
-            console.error(error.message);
-        });
-    }
-
-    // Attach event listener for "Add to Cart"
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            const price = this.getAttribute('data-price');
-            addToCart(productId, price);
-        });
-    });
-
-    // Function to load cart items
-    function loadCartItems() {
-        const user = auth.currentUser;
-        if (!user) {
-            alert("Please log in to view your cart.");
-            return;
-        }
-
-        onValue(ref(db, 'carts/' + user.uid), (snapshot) => {
-            const cartItems = snapshot.val();
-            let cartHTML = '';
-            for (let item in cartItems) {
-                cartHTML += `<div>Product ID: ${cartItems[item].productId}, Price: ${cartItems[item].price}, Quantity: ${cartItems[item].quantity}</div>`;
-            }
-            document.getElementById('cart-items').innerHTML = cartHTML;
-        });
-    }
-
-    // Load cart items when the page loads
-    window.onload = function() {
-        loadCartItems();
-    };
-
-    // Checkout function
-    function checkout() {
-        const user = auth.currentUser;
-        if (!user) {
-            alert("Please log in to checkout.");
-            return;
-        }
-
-        get(ref(db, 'carts/' + user.uid)).then(snapshot => {
-            const cartItems = snapshot.val();
-            let totalPrice = 0;
-
-            for (let item in cartItems) {
-                totalPrice += cartItems[item].price * cartItems[item].quantity;
-            }
-
-            console.log("Total Price: ", totalPrice);
-            // You can integrate Razorpay or another payment gateway here
-        });
-    }
-
-    // Attach event listener for checkout
-    const checkoutButton = document.getElementById('checkout');
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', function() {
-            checkout();
-        });
-    } else {
-        console.error("Checkout button not found.");
-    }
-
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            console.log("User is logged in: ", user.email);
-            // Update UI or load user-specific data
-        } else {
-            console.log("No user is logged in.");
-            // Redirect to login page or show login prompt
-        }
-    });
-});
